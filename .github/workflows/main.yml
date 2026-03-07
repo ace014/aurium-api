@@ -16,9 +16,12 @@ jobs:
           script: |
             export NVM_DIR="$HOME/.nvm"
             [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+            
             cd web/aurium-api/
+            
             git pull
-            npm ci --omit=dev
-            npm run build
+            npm ci
             npx prisma generate
+            npm run build
+            npm prune --omit=dev
             pm2 restart aurium-backend
